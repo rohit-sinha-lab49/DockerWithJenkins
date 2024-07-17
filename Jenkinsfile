@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+    environment {
+            DOCKER_HUB_CREDENTIALS = credentials('dockerhubpwd') // Replace with your Jenkins credential ID
+        }
     tools{
         maven 'Maven3'
     }
@@ -17,9 +21,13 @@ pipeline {
         }
         stage('Push image to hub'){
             steps{
-                withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                /* withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                         bat 'docker login -u rohitsinha025@gmail.com -p Hanuman@1209'
-                        }
+                        } */
+                        script {
+                                            // Perform Docker login using credentials
+                                            bat 'echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
+                                        }
                 bat 'docker push rohitsinha025/jenkins-docker'
             }
         }
