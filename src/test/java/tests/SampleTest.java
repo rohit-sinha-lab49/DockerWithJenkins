@@ -1,22 +1,14 @@
 package tests;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.project.base.WebDriverSingleton;
 import com.project.pages.LoginPage;
 import com.project.utils.ConfigReader;
-import com.project.utils.ScreenshotUtil;
+import com.project.utils.TestListener;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
 import org.testng.annotations.*;
 
-import java.io.IOException;
 import java.util.Properties;
-
-import com.project.utils.TestListener;
 
 @Listeners (TestListener.class)
 public class SampleTest {
