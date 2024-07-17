@@ -21,7 +21,7 @@ pipeline {
             script{
                 //bat 'docker login -u ${dockerusername} -p ${dockerpwd}'
                 bat """
-                echo %dockerpwd% | docker login -u %dockerusername% --password-stdin
+                echo %dockerusername% | docker login -u %dockerpwd% --password-stdin
                 """
                 }
             }
