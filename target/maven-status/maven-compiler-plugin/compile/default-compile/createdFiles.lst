@@ -1,5 +1,4 @@
 com\project\utils\ScreenshotUtil.class
 com\project\utils\ConfigReader.class
 com\project\pages\LoginPage.class
-com\project\base\DriverManager.class
 com\project\utils\TestListener.class
