@@ -20,7 +20,9 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'dockerhubcred', passwordVariable: 'dockerusername', usernameVariable: 'dockerpwd')]) {
             script{
                 //bat 'docker login -u ${dockerusername} -p ${dockerpwd}'
-                bat 'echo $dockerpwd | docker login -u $dockerusername --password-stdin'
+                bat """
+                echo %dockerpwd% | docker login -u %dockerusername% --password-stdin
+                """
                 }
             }
                 /* withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
