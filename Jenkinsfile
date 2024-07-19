@@ -3,6 +3,9 @@ pipeline {
     tools{
         maven 'Maven3'
     }
+    environment{
+    DOCKERHUB_CREDENTIALS = credentials('rohitsinha025-dockerhub')
+    }
     stages{
         stage('Build Maven'){
             steps{
@@ -15,24 +18,21 @@ pipeline {
                 bat 'docker build -t rohitsinha025/jenkins-docker .'
             }
         }
-        stage('Push image to hub'){
+        stage('Login'){
             steps{
-            withCredentials([usernamePassword(credentialsId: 'dockerhubcred', passwordVariable: 'dockerpwd', usernameVariable: 'dockerusername')]) {
-            script {
-                                    // Debugging: Check the values of the environment variables without exposing the password
-                                    echo "dockerusername: ${env.dockerusername}"
-                                    echo "dockerpwd: ${env.dockerpwd}"
-                                    // Attempt Docker login
-                                    bat """
-                                    echo %dockerpwd% | docker login -u %dockerusername% --password-stdin
-                                    """
-                                }
+                bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
-                /* withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                        bat 'docker login -u rohitsinha025@gmail.com -p Hanuman@1209'
-                        }  */
+        }
+        stage('Push image to hub'){
+            steps {
                 bat 'docker push rohitsinha025/jenkins-docker'
             }
         }
     }
+        post{
+            always{
+                bat 'docker logout'
+            }
+        }
+
 }
