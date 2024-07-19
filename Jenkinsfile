@@ -22,9 +22,10 @@ pipeline {
             // Debugging: Print the credentials to check if they are correctly injected
                                     echo "dockerusername: ${env.dockerusername}"
                                     echo "dockerpwd: ${env.dockerpwd}"
-                bat """
+                /* bat """
                 echo %dockerpwd% | docker login -u %dockerusername% --password-stdin
-                """
+                """ */
+                $ echo “$REGISTRY_PASSWORD” --password | docker login --username $REGISTRY_USER --password-stdin
                 }
             }
                 /* withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
