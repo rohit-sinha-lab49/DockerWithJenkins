@@ -18,15 +18,15 @@ pipeline {
         stage('Push image to hub'){
             steps{
             withCredentials([usernamePassword(credentialsId: 'dockerhubcred', passwordVariable: 'dockerpwd', usernameVariable: 'dockerusername')]) {
-            script{
-            // Debugging: Print the credentials to check if they are correctly injected
+            script {
+                                    // Debugging: Check the values of the environment variables without exposing the password
                                     echo "dockerusername: ${env.dockerusername}"
                                     echo "dockerpwd: ${env.dockerpwd}"
-                /* bat """
-                echo %dockerpwd% | docker login -u %dockerusername% --password-stdin
-                """ */
-                $ echo “dockerpwd” --password | docker login --username $dockerusername --password-stdin
-                }
+                                    // Attempt Docker login
+                                    bat """
+                                    echo %dockerpwd% | docker login -u %dockerusername% --password-stdin
+                                    """
+                                }
             }
                 /* withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                         bat 'docker login -u rohitsinha025@gmail.com -p Hanuman@1209'
