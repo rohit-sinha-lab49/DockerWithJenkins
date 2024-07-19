@@ -9,13 +9,7 @@ pipeline {
     stages{
     stage('Login'){
                 steps{
-                    //bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                    script {
-                                        // Docker login using credentials
-                                        bat """
-                                        echo %DOCKER_HUB_CREDENTIALS_PSW% | docker login -u %DOCKER_HUB_CREDENTIALS_USR% --password-stdin
-                                        """
-                                    }
+                    bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 }
             }
         stage('Build Maven'){
