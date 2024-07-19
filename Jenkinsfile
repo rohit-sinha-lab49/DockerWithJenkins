@@ -4,9 +4,20 @@ pipeline {
         maven 'Maven3'
     }
     environment{
-    DOCKERHUB_CREDENTIALS = credentials('rohitsinha025-dockerhub')
+    DOCKER_HUB_CREDENTIALS = credentials('rohitsinha025-dockerhub')
     }
     stages{
+    stage('Login'){
+                steps{
+                    //bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    script {
+                                        // Docker login using credentials
+                                        bat """
+                                        echo %DOCKER_HUB_CREDENTIALS_PSW% | docker login -u %DOCKER_HUB_CREDENTIALS_USR% --password-stdin
+                                        """
+                                    }
+                }
+            }
         stage('Build Maven'){
             steps{
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '75640b0a-dece-46b2-95f5-781877fe7e39', url: 'https://github.com/rohit-sinha-lab49/DockerWithJenkins']])
@@ -16,11 +27,6 @@ pipeline {
         stage('Build docker image'){
             steps{
                 bat 'docker build -t rohitsinha025/jenkins-docker .'
-            }
-        }
-        stage('Login'){
-            steps{
-                bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --pas'
             }
         }
         stage('Push image to hub'){
