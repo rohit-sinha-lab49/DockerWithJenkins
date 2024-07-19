@@ -19,6 +19,9 @@ pipeline {
             steps{
             withCredentials([usernamePassword(credentialsId: 'dockerhubcred', passwordVariable: 'dockerpwd', usernameVariable: 'dockerusername')]) {
             script{
+            // Debugging: Print the credentials to check if they are correctly injected
+                                    echo "dockerusername: ${env.dockerusername}"
+                                    echo "dockerpwd: ${env.dockerpwd}"
                 bat """
                 echo %dockerpwd% | docker login -u %dockerusername% --password-stdin
                 """
