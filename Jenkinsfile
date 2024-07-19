@@ -25,7 +25,7 @@ pipeline {
                 /* bat """
                 echo %dockerpwd% | docker login -u %dockerusername% --password-stdin
                 """ */
-                $ echo “$REGISTRY_PASSWORD” --password | docker login --username $REGISTRY_USER --password-stdin
+                $ echo “dockerpwd” --password | docker login --username $dockerusername --password-stdin
                 }
             }
                 /* withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
